@@ -37,10 +37,21 @@ $books = [
 // Se indica al cliente que lo que recibirá es un json
 header('Content-Type: application/json');
 
+// levantamos el ID del recurso buscado
+$resourceId = array_key_exists('resource_id', $_GET) ? $_GET['resource_id'] : '' ; //  un IF inmediato
+
 // Generamos la respuesta asumiendo que el pedido es correcto
 switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
     case'GET':
-        echo json_encode($books);
+        if (empty($resourceId)) {
+            echo json_encode($books);
+            
+        } else {
+            if ( array_key_exists($resourceId, $books)) {
+                echo json_encode($books[ $resourceId]);
+            }
+        }
+        
         break;
     case'POST':
         break;
@@ -58,5 +69,8 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
 // curl http://localhost:8000 -v
 // curl http://localhost:8000?resource_type=books
 // curl http://localhost:8000?resource_type=books | jq
-
 //$ curl "http://localhost:8000?resource_type=books&resource_id=1"
+
+// con la expresion regurla en router.php
+//curl http://localhost:8000/books
+?>

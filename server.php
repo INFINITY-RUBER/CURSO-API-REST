@@ -54,8 +54,24 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
         
         break;
     case'POST':
+    // tomamos la entreada 'cruda'
+        $json = file_get_contents('php://input');
+        // tranformamos el json en un nuevo elento del arreglo
+        $books[] = json_decode( $json, true );
+        // Emitimos hacia la slaida ultima clave del arreglo
+        echo array_keys( $books)[ count($books) - 1];
+        // echo json_encode($books);
         break;
     case'PUT':
+        // validamos que el recurso buscado exista
+        if ( !empty($resourceId) && array_key_exists( $resourceId, $books)) {
+            // tomamos la entreada 'cruda'
+            $json = file_get_contents('php://input');
+             // tranformamos el json en un nuevo elento del arreglo
+            $books[$resourceId] = json_decode( $json, true );
+            // retornamos la coleccion modificada en jsom
+            echo json_encode($books);
+        }
         break;
     case'DELETE':
         break;
@@ -63,8 +79,8 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
 
 
 // Inicio el servidor en la terminal 1
-// php -S localhost:8000 Server.php
-
+// php -S localhost:8000 server.php
+// GET:
 // Terminal 2 ejecutar 
 // curl http://localhost:8000 -v
 // curl http://localhost:8000?resource_type=books
@@ -73,4 +89,10 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
 
 // con la expresion regurla en router.php
 //curl http://localhost:8000/books
-?>
+
+// POST:
+// curl -X 'POST' http://localhost:8000/books -d "{"titulo": "nuevo libro", "id_autor": 1, "id_genero": 2 }"
+// curl -X 'POST' http://localhost:8000/books -d '{'titulo': nuevo libro, "id_autor": 1, "id_genero": 2 }'
+// PUT:
+// curl -X 'PUT' http://localhost:8000/books/1 -d '{"titulo": "Nuevo Libro", "id_autor": 1, "id_genero": 2}'
+// curl -X 'POST' http://localhost:8000/books -d '{'titulo': nuevo libro, "id_autor": 1, "id_genero": 2 }'

@@ -74,6 +74,13 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
         }
         break;
     case'DELETE':
+        // Validando que el recurso exista
+        if ( !empty($resourceId) && array_key_exists( $resourceId, $books)) {
+            // eliminamos el recurso
+            unset( $books[ $resourceId]);
+        }
+        echo json_encode($books);
+
         break;
 }
 
@@ -88,7 +95,7 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
 //$ curl "http://localhost:8000?resource_type=books&resource_id=1"
 
 // con la expresion regurla en router.php
-//curl http://localhost:8000/books
+//curl http://localhost:8000/books/1
 
 // POST:
 // curl -X 'POST' http://localhost:8000/books -d "{"titulo": "nuevo libro", "id_autor": 1, "id_genero": 2 }"
@@ -96,3 +103,5 @@ switch( strtoupper($_SERVER['REQUEST_METHOD'])) {
 // PUT:
 // curl -X 'PUT' http://localhost:8000/books/1 -d '{"titulo": "Nuevo Libro", "id_autor": 1, "id_genero": 2}'
 // curl -X 'POST' http://localhost:8000/books -d '{'titulo': nuevo libro, "id_autor": 1, "id_genero": 2 }'
+// DELETE:
+// curl -X 'DELETE' http://localhost:8000/books/1

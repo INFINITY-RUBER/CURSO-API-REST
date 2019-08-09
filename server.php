@@ -1,5 +1,8 @@
 <?php
-// CLASE 06 - Exponer datos a traves de HTTP GET
+// 
+$user = array_key_exists('PHP_AUTH__USER', $_SERVER) ? $_SERVER['PHP_AUTH__USER'] : '';
+$pwd = array_key_exists('PHP_AUTH__PW', $_SERVER) ? $_SERVER['PHP_AUTH__PW'] : '';
+
 
 // Definimos los recursos disponibles
 $allowedResourceType = [

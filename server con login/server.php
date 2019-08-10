@@ -7,7 +7,6 @@
 header( 'Content-Type: application/json' );
 
 if ( !array_key_exists( 'HTTP_X_TOKEN', $_SERVER ) ) {
-
 	die;
 }
 
@@ -39,6 +38,7 @@ $allowedResourceType = [
 
 // Validamos que el recurso este disponible
 $resourceType = $_GET['resource_type'];
+
 if ( !in_array( $resourceType, $allowedResourceTypes ) ) {
 	http_response_code( 400 );
 	echo json_encode(
